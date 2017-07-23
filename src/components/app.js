@@ -1,25 +1,27 @@
 angular.module('video-player')
 
-.controller('AppCtrl', function() {
-  this.videos = window.exampleVideoData;
-  this.currentVideo = this.videos[0];
+  .controller('AppCtrl', function(youTube) {
 
-  this.searchResults = () => {
+    this.searchService = youTube;
+    this.videos = window.exampleVideoData;
+    this.currentVideo = this.videos[0];
 
-  };
+    this.searchResults = (input) => {
+      this.videos = input;
+      this.currentVideo = this.videos[0];
+    };
 
-  this.selectVideo = (video) => {
-    console.log('Here is the video input: ', video);
-    console.log('Here is currentVideo: ', this.currentVideo);
-    this.currentVideo = video;
-    console.log('currentVideo changed at selectVideo: ', this.currentVideo);
-  };
-})
+    this.selectVideo = (video) => {
+      this.currentVideo = video;
+    };
 
-.component('app', {
-  controller: 'AppCtrl',
+    youTube.search('katamari damacy', this.searchResults);
+  })
 
-  // Assign controller to this component,
-  templateUrl: 'src/templates/app.html'
+  .component('app', {
+    controller: 'AppCtrl',
 
-});
+    // Assign controller to this component,
+    templateUrl: 'src/templates/app.html'
+
+  });
